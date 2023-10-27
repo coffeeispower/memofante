@@ -15,6 +15,6 @@ pub fn list(connection: &Connection) -> Result<(), color_eyre::eyre::Error> {
             word.failed_reviews(),
             word.success_rate() * 100f64
         )?;
-    };
+    }
     Ok(())
 }

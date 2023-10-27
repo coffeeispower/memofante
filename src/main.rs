@@ -1,6 +1,6 @@
 pub mod commands;
-pub mod discovered_word;
 pub mod database;
+pub mod discovered_word;
 use clap::Parser;
 
 #[derive(Parser)]
@@ -17,4 +17,3 @@ fn main() -> color_eyre::Result<()> {
     commands::handle_command(cli.command, &connection)?;
     Ok(())
 }
-
