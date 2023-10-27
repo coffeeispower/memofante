@@ -1,0 +1,23 @@
+[package]
+name = "wordvault"
+version = "0.1.0"
+description = "A CLI for helping you learn japanese words"
+authors = ["Tiago Dinis <tiagodinis33@proton.me>"]
+
+license-file = "LICENSE"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.4.7", features = ["derive"] }
+jmdict = "2.0.0"
+termion = "2.0.1"
+xdg = "2.5.2"
+rusqlite = { version = "0.29.0", features = ["bundled"] }
+rusqlite_migration = "1.0.2"
+lazy_static = "1.4.0"
+color-eyre = "0.6.2"
+
+# Rename binary to wv
+[[bin]]
+name = "wv"
+path = "src/main.rs"

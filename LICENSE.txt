@@ -1,0 +1,7 @@
+WordVault License
+
+You can do absolutely anything with the source code or the compiled form of this software, including sharing, redistributing, selling, and modifying.
+
+This project has ABSOLUTELY NO WARRANTY. I'm NOT responsible for anything wrong that happens while you use this program; this program was created for the purposes of the creator and may not fit with what you want to do.
+
+Unmodified redistributions of this software must retain the above copyright notice, this list of conditions, and the following disclaimer.
