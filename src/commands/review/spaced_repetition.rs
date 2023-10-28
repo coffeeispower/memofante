@@ -1,22 +1,16 @@
-//! Implements spaced repetition with a iterator
-//!
-//! The next word to review is the word with the lowest success rate after the current one, after all words have been reviewed, the iterator starts again.
-
+use rand::distributions::WeightedIndex;
+use rand::prelude::*;
 use crate::discovered_word::DiscoveredWord;
 use std::cell::RefCell;
 use std::rc::Rc;
 
 pub struct SpacedRepetition {
     words: Vec<Rc<RefCell<DiscoveredWord>>>,
-    reviewed_words: Vec<u32>,
 }
 
 impl SpacedRepetition {
     pub fn new(words: Vec<Rc<RefCell<DiscoveredWord>>>) -> Self {
-        Self {
-            words,
-            reviewed_words: Vec::new(),
-        }
+        Self { words }
     }
 }
 
@@ -24,31 +18,23 @@ impl Iterator for SpacedRepetition {
     type Item = Rc<RefCell<DiscoveredWord>>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // Get the next word based on your spaced repetition algorithm
-        let next_word: Option<Self::Item> = self
+        let mut rng = rand::thread_rng();
+        let rand_weights_iter = self
             .words
             .iter()
-            .filter(|word| {
-                !self
-                    .reviewed_words
-                    .iter()
-                    .copied()
-                    .any(|w| w == word.borrow().entry_number())
-            })
-            .min_by(|a, b| {
-                a.borrow()
-                    .success_rate()
-                    .partial_cmp(&b.borrow().success_rate())
-                    .unwrap_or(std::cmp::Ordering::Equal)
-            })
-            .cloned(); // Clone the Rc<RefCell<DiscoveredWord>>
-
-        // Mark the word as reviewed
-        if let Some(word) = next_word.as_ref() {
-            self.reviewed_words.push(word.borrow().entry_number());
-        }
-
-        // Return the next word
-        next_word
+            .map(|word| calculate_score(&word.borrow()));
+        let dist = WeightedIndex::new(rand_weights_iter).ok()?;
+        let chosen_word_index = dist.sample(&mut rng);
+        Some(self.words[chosen_word_index].clone())
     }
+}
+fn sigmoid(x: f64) -> f64 {
+    1.0 / (1.0 + (-x).exp())
+}
+fn calculate_score(word: &DiscoveredWord) -> f64 {
+    const FAILURE_WEIGHT: f64 = 1.0;
+    const FEW_REVIEWS_WEIGHT: f64 = 5.0;
+    let failure_score = FAILURE_WEIGHT * word.failure_rate() as f64;
+    let few_reviews_score = FEW_REVIEWS_WEIGHT * (1.0 - sigmoid(word.total_reviews() as f64));
+    failure_score + few_reviews_score
 }

@@ -17,6 +17,7 @@ rusqlite_migration = "1.0.2"
 lazy_static = "1.4.0"
 color-eyre = "0.6.2"
 strsim = "0.10.0"
+rand = "0.8.5"
 
 # Rename binary to wv
 [[bin]]

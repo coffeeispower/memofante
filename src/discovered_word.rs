@@ -18,6 +18,9 @@ impl DiscoveredWord {
     pub fn success_rate(&self) -> f64 {
         self.success_reviews as f64 / self.total_reviews as f64
     }
+    pub fn failure_rate(&self) -> f64 {
+        self.failed_reviews as f64 / self.total_reviews as f64
+    }
     pub fn success_reviews(&self) -> u32 {
         self.success_reviews
     }
