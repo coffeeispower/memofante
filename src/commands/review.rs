@@ -26,11 +26,20 @@ pub fn review(connection: &Connection) -> color_eyre::Result<()> {
                         .collect::<Vec<_>>()
                 })
                 .collect::<Vec<_>>();
-            println!(
-                "{}Word: {}",
-                termion::clear::All,
-                jmdict_entry.common_text_form()
-            );
+            if jmdict_entry.usually_written_using_kana() {
+                println!(
+                    "{}Word: {}",
+                    termion::clear::All,
+                    jmdict_entry.common_text_form()
+                );
+            } else {
+                println!(
+                    "{}Word: {}\n       {}",
+                    termion::clear::All,
+                    jmdict_entry.common_text_form(),
+                    jmdict_entry.word_in_kana()
+                );
+            }
             println!("Type the meaning of this word:");
             print!("Answer: ");
             std::io::stdout().lock().flush()?;
@@ -49,6 +58,9 @@ pub fn review(connection: &Connection) -> color_eyre::Result<()> {
                 if correct_answers.len() > 1 {
                     println!("Other possible correct answers:");
                     for gloss in correct_answers {
+                        if gloss.is_empty() {
+                            continue;
+                        }
                         println!("- {}", gloss.join(", "));
                     }
                 }
@@ -61,6 +73,9 @@ pub fn review(connection: &Connection) -> color_eyre::Result<()> {
                 );
                 println!("Correct answers:");
                 for gloss in correct_answers {
+                    if gloss.is_empty() {
+                        continue;
+                    }
                     println!("- {}", gloss.join(", "));
                 }
                 word.borrow_mut().reviewed(false, connection)?;

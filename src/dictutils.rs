@@ -15,6 +15,7 @@ pub fn find_entry_by_number(number: u32) -> Entry {
 pub trait EntryExt {
     fn common_text_form(&self) -> String;
     fn usually_written_using_kana(&self) -> bool;
+    fn word_in_kana(&self) -> String;
 }
 impl EntryExt for Entry {
     fn usually_written_using_kana(&self) -> bool {
@@ -23,17 +24,20 @@ impl EntryExt for Entry {
                 .any(|s| s == SenseInfo::UsuallyWrittenUsingKanaAlone)
         })
     }
+    fn word_in_kana(&self) -> String {
+        self.reading_elements()
+            .find(|x| x.priority.is_common())
+            .or_else(|| {
+                self.reading_elements()
+                    .min_by_key(|x| x.priority.frequency_bucket)
+            })
+            .unwrap()
+            .text
+            .to_string()
+    }
     fn common_text_form(&self) -> String {
         if self.usually_written_using_kana() {
-            self.reading_elements()
-                .find(|x| x.priority.is_common())
-                .or_else(|| {
-                    self.reading_elements()
-                        .min_by_key(|x| x.priority.frequency_bucket)
-                })
-                .unwrap()
-                .text
-                .to_string()
+            self.word_in_kana()
         } else {
             self.kanji_elements()
                 .find(|x| x.priority.is_common())
