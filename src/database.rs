@@ -5,7 +5,7 @@ pub fn path() -> std::path::PathBuf {
     let xdg_base_directories =
         xdg::BaseDirectories::new().expect("Failed to get XDG base directories");
     let data_dir = xdg_base_directories
-        .create_data_directory("wordvault")
+        .create_data_directory(env!("CARGO_PKG_NAME"))
         .unwrap();
 
     data_dir.join("db.sqlite")

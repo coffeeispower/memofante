@@ -1,4 +1,4 @@
-WordVault License
+Memofante License
 
 You can do absolutely anything with the source code or the compiled form of this software, including sharing, redistributing, selling, and modifying.
 

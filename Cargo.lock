@@ -448,6 +448,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f665ee40bc4a3c5590afb1e9677db74a508659dfd71e126420da8274909a0167"
 
 [[package]]
+name = "memofante"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "color-eyre",
+ "jmdict",
+ "lazy_static",
+ "rusqlite",
+ "rusqlite_migration",
+ "termion",
+ "xdg",
+]
+
+[[package]]
 name = "miniz_oxide"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -841,20 +855,6 @@ name = "windows_x86_64_msvc"
 version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
-
-[[package]]
-name = "wordvault"
-version = "0.1.0"
-dependencies = [
- "clap",
- "color-eyre",
- "jmdict",
- "lazy_static",
- "rusqlite",
- "rusqlite_migration",
- "termion",
- "xdg",
-]
 
 [[package]]
 name = "xdg"

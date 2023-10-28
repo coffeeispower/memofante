@@ -1,7 +1,7 @@
 [package]
-name = "wordvault"
+name = "memofante"
 version = "0.1.0"
-description = "A CLI for helping you learn japanese words"
+description = "A CLI for helping you learn and remember japanese words"
 authors = ["Tiago Dinis <tiagodinis33@proton.me>"]
 
 license-file = "LICENSE"
@@ -19,5 +19,5 @@ color-eyre = "0.6.2"
 
 # Rename binary to wv
 [[bin]]
-name = "wv"
+name = "memofante"
 path = "src/main.rs"
