@@ -48,7 +48,16 @@ pub fn review(connection: &Connection) -> color_eyre::Result<()> {
             std::io::stdin().read_line(&mut answer)?;
             if correct_answers
                 .iter()
-                .any(|ca| ca.iter().any(|ca| ca == answer.trim()))
+                .any(|ca| ca.iter().any(|ca| {
+                    match strsim::normalized_levenshtein(ca.as_str(), answer.trim()) {
+                        f if (0.0..0.8).contains(&f) => false,
+                        f if (0.8..1.0).contains(&f) => {
+                            println!("You made a typo, did you mean '{ca}'?");
+                            true
+                        },
+                        _ => true
+                    }
+                }))
             {
                 println!(
                     "{}✓ Nailed it{}",
