@@ -1,4 +1,5 @@
 # Memofante
+([Clique aqui ver em português](./README.pt.md))
 Memofante is here, a biiiig help:
 - Do you often forget japanese words you really didn't want to forget?
 - Do you have difficulty memorizing vocabulary and kanji readings?
