@@ -1,7 +1,7 @@
 [package]
 name = "memofante"
 version = "0.1.0"
-description = "A CLI for helping you learn and remember japanese words"
+description = "A biiiiig help when learning and remembering japanese words 🐘"
 authors = ["Tiago Dinis <tiagodinis33@proton.me>"]
 
 license-file = "LICENSE"
