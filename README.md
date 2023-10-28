@@ -27,3 +27,7 @@ Memofante has 4 basic commands:
 Memofante will ask the meaning or the reading of all the ✨**discovered word**✨, 
 the order and frequency of which they appear will be sorted by the success rate, 
 if you ever used something like duolingo before this will feel familiar.
+# Why the name "Memofante"?
+It's a reference to a medication that was around in 2014-2016 in portugal to improve memory for people +50 years old, which had a really funny comercial:
+
+[![memofante comercial](https://img.youtube.com/vi/mDFfE4VlJz8/0.jpg)](https://www.youtube.com/watch?v=mDFfE4VlJz8)
