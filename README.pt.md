@@ -19,7 +19,7 @@ O Memofante tem 4 comandos básicos:
 - `memofante add <palavra>`: Adiciona uma nova ✨**palavra descoberta**✨
 - `memofante list`: Lista as tuas ✨**palavras descobertas**✨ com sucessos, falhas e taxa de sucesso nas revisões
 - `memofante remove <palavra>`: Remove uma ✨**palavra descoberta**✨
-- `memofante review`: Inicia uma nova revisão
+- `memofante review <meaning (padrão) | reading>`: Inicia uma nova revisão
 
 ## Como funcionam as revisões?
 

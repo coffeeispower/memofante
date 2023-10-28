@@ -21,7 +21,7 @@ Memofante has 4 basic commands:
 - `memofante add <word>`: Adds a new ✨**discovered word**✨
 - `memofante list`: Lists your ✨**discovered words**✨ with the successes, failures and success rate in reviews
 - `memofante remove <word>`: Remove a ✨**discovered word**✨
-- `memofante review`: Starts a new review
+- `memofante review <meaning (default) | reading>`: Starts a new review
 
 ## How the reviews work?
 
