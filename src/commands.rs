@@ -1,6 +1,7 @@
 mod add;
 mod list;
 mod remove;
+mod review;
 use clap::Subcommand;
 use rusqlite::Connection;
 
@@ -24,7 +25,7 @@ pub fn handle_command(command: Commands, connection: &Connection) -> color_eyre:
         Commands::Add { word } => add::add(word, connection)?,
         Commands::List => list::list(connection)?,
         Commands::Remove { word } => remove::remove(word, connection)?,
-        Commands::Review => todo!(),
+        Commands::Review => review::review(connection)?,
     }
     Ok(())
 }
