@@ -1,5 +1,5 @@
 //! Implements spaced repetition with a iterator
-//! 
+//!
 //! The next word to review is the word with the lowest success rate after the current one, after all words have been reviewed, the iterator starts again.
 
 use crate::discovered_word::DiscoveredWord;
@@ -8,7 +8,7 @@ use std::rc::Rc;
 
 pub struct SpacedRepetition {
     words: Vec<Rc<RefCell<DiscoveredWord>>>,
-    reviewed_words: Vec<String>,
+    reviewed_words: Vec<u32>,
 }
 
 impl SpacedRepetition {
@@ -25,15 +25,27 @@ impl Iterator for SpacedRepetition {
 
     fn next(&mut self) -> Option<Self::Item> {
         // Get the next word based on your spaced repetition algorithm
-        let next_word: Option<Self::Item> = self.words
+        let next_word: Option<Self::Item> = self
+            .words
             .iter()
-            .filter(|word| !self.reviewed_words.iter().any(|w| w == word.borrow().word()))
-            .min_by(|a, b| a.borrow().success_rate().partial_cmp(&b.borrow().success_rate()).unwrap_or(std::cmp::Ordering::Equal))
-            .cloned();  // Clone the Rc<RefCell<DiscoveredWord>>
+            .filter(|word| {
+                !self
+                    .reviewed_words
+                    .iter()
+                    .copied()
+                    .any(|w| w == word.borrow().entry_number())
+            })
+            .min_by(|a, b| {
+                a.borrow()
+                    .success_rate()
+                    .partial_cmp(&b.borrow().success_rate())
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
+            .cloned(); // Clone the Rc<RefCell<DiscoveredWord>>
 
         // Mark the word as reviewed
         if let Some(word) = next_word.as_ref() {
-            self.reviewed_words.push(word.borrow().word().to_string());
+            self.reviewed_words.push(word.borrow().entry_number());
         }
 
         // Return the next word

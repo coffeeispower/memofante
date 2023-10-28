@@ -1,4 +1,4 @@
-use crate::discovered_word::DiscoveredWord;
+use crate::{discovered_word::DiscoveredWord, dictutils::EntryExt};
 use rusqlite::Connection;
 use std::io::Write;
 
@@ -10,7 +10,7 @@ pub fn list(connection: &Connection) -> Result<(), color_eyre::eyre::Error> {
         writeln!(
             &mut stdout,
             "- {} (Successes: {}, Fails: {}, Success Rate: {:.1}%)",
-            word.word(),
+            word.jmdict_entry().common_text_form(),
             word.success_reviews(),
             word.failed_reviews(),
             word.success_rate() * 100f64

@@ -9,7 +9,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.4.7", features = ["derive"] }
-jmdict = "2.0.0"
+jmdict = {version = "2.0.0", features = ["full"]}
 termion = "2.0.1"
 xdg = "2.5.2"
 rusqlite = { version = "0.29.0", features = ["bundled"] }

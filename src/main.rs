@@ -1,6 +1,7 @@
 pub mod commands;
 pub mod database;
 pub mod discovered_word;
+pub mod dictutils;
 use clap::Parser;
 
 #[derive(Parser)]
