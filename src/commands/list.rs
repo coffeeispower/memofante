@@ -7,6 +7,18 @@ pub fn list(connection: &Connection) -> Result<(), color_eyre::eyre::Error> {
     let mut stdout = std::io::stdout().lock();
     writeln!(&mut stdout, "Discovered words:")?;
     for word in discovered_words {
+        if word.total_reviews() == 0 {
+            writeln!(
+                &mut stdout,
+                "- {}{}{} NEW {} {}",
+                termion::style::Bold,
+                termion::color::Bg(termion::color::Yellow),
+                termion::color::Fg(termion::color::Black),
+                termion::style::Reset,
+                word.jmdict_entry().common_text_form(),
+            )?;
+            continue;
+        }
         writeln!(
             &mut stdout,
             "- {} (Successes: {}, Fails: {}, Success Rate: {:.1}%)",

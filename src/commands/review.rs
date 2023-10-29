@@ -48,19 +48,28 @@ fn review_word_meaning(
                 .collect::<Vec<_>>()
         })
         .collect::<Vec<_>>();
-    if jmdict_entry.usually_written_using_kana() {
-        println!(
-            "{}{}--- MEANING EXERCISE ---\nWord: {}",
-            termion::clear::All,
-            termion::cursor::Goto(1, 1),
-            jmdict_entry.common_text_form()
+    println!("{}{}--- MEANING EXERCISE ---",
+        termion::clear::All,
+        termion::cursor::Goto(1, 1)
+    );
+
+    print!(
+        "Word: {}",
+        jmdict_entry.common_text_form()
+    );
+    if word.borrow().total_reviews() == 0 {
+        print!(
+            "{}{}{} NEW {}",
+            termion::style::Bold,
+            termion::color::Bg(termion::color::Yellow),
+            termion::color::Fg(termion::color::Black),
+            termion::style::Reset,
         );
-    } else {
+    }
+    println!();
+    if !jmdict_entry.usually_written_using_kana() {
         println!(
-            "{}{}--- MEANING EXERCISE ---\nWord: {}\n      {}",
-            termion::clear::All,
-            termion::cursor::Goto(1, 1),
-            jmdict_entry.common_text_form(),
+            "      {}",
             jmdict_entry.word_in_kana()
         );
     }
@@ -153,13 +162,24 @@ fn review_word_reading(
         .reading_elements()
         .map(|r| r.text)
         .collect::<Vec<_>>();
-    println!(
-        "{}{}--- READING EXERCISE ---\nWord: {}",
+    println!("{}{}--- READING EXERCISE ---",
         termion::clear::All,
-        termion::cursor::Goto(1, 1),
+        termion::cursor::Goto(1, 1)
+    );
+    print!(
+        "Word: {}",
         jmdict_entry.common_text_form()
     );
-
+    if word.borrow().total_reviews() == 0 {
+        print!(
+            "{}{}{} NEW {}",
+            termion::style::Bold,
+            termion::color::Bg(termion::color::Yellow),
+            termion::color::Fg(termion::color::Black),
+            termion::style::Reset,
+        );
+    }
+    println!();
     println!("Type the reading of this word:");
     print!("Answer: ");
     std::io::stdout().lock().flush()?;
