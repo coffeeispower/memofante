@@ -34,7 +34,12 @@ fn sigmoid(x: f64) -> f64 {
 fn calculate_score(word: &DiscoveredWord) -> f64 {
     const FAILURE_WEIGHT: f64 = 1.0;
     const FEW_REVIEWS_WEIGHT: f64 = 5.0;
-    let failure_score = FAILURE_WEIGHT * word.failure_rate() as f64;
+    let failure_rate = if word.failure_rate().is_nan() {
+        0.0
+    } else {
+        word.failure_rate()
+    };
+    let failure_score = FAILURE_WEIGHT * failure_rate as f64;
     let few_reviews_score = FEW_REVIEWS_WEIGHT * (1.0 - sigmoid(word.total_reviews() as f64));
     failure_score + few_reviews_score
 }

@@ -50,14 +50,14 @@ fn review_word_meaning(
         .collect::<Vec<_>>();
     if jmdict_entry.usually_written_using_kana() {
         println!(
-            "{}--- MEANING EXERCISE ---\n{}Word: {}",
+            "{}{}--- MEANING EXERCISE ---\nWord: {}",
             termion::clear::All,
             termion::cursor::Goto(1, 1),
             jmdict_entry.common_text_form()
         );
     } else {
         println!(
-            "{}{}Word: {}\n      {}",
+            "{}{}--- MEANING EXERCISE ---\nWord: {}\n      {}",
             termion::clear::All,
             termion::cursor::Goto(1, 1),
             jmdict_entry.common_text_form(),
