@@ -32,7 +32,19 @@ pub fn review(connection: &Connection, mode: ReviewMode) -> color_eyre::Result<(
     println!("You finished reviewing all the ✨{}{}discovered words{}✨, go take a break, drink a coffee, do what you do best.", termion::style::Bold, termion::color::Fg(termion::color::Yellow), termion::style::Reset);
     Ok(())
 }
+fn format_definition(def: String) -> String {
+    let Some((before_parens, after_parens)) = def.split_once('(') else {
+        return def;
+    };
 
+    format!(
+        "{}{}({}{}",
+        before_parens,
+        termion::color::Fg(termion::color::LightBlack),
+        after_parens,
+        termion::color::Fg(termion::color::Reset)
+    )
+}
 fn review_word_meaning(
     word: Rc<RefCell<DiscoveredWord>>,
     correct_answered_questions: &mut HashSet<u32>,
@@ -48,15 +60,13 @@ fn review_word_meaning(
                 .collect::<Vec<_>>()
         })
         .collect::<Vec<_>>();
-    println!("{}{}--- MEANING EXERCISE ---",
+    println!(
+        "{}{}--- MEANING EXERCISE ---",
         termion::clear::All,
         termion::cursor::Goto(1, 1)
     );
 
-    print!(
-        "Word: {}",
-        jmdict_entry.common_text_form()
-    );
+    print!("Word: {}", jmdict_entry.common_text_form());
     if word.borrow().total_reviews() == 0 {
         print!(
             "{}{}{} NEW {}",
@@ -68,10 +78,7 @@ fn review_word_meaning(
     }
     println!();
     if !jmdict_entry.usually_written_using_kana() {
-        println!(
-            "      {}",
-            jmdict_entry.word_in_kana()
-        );
+        println!("      {}", jmdict_entry.word_in_kana());
     }
     println!("Type the meaning of this word:");
     print!("Answer: ");
@@ -105,6 +112,7 @@ fn review_word_meaning(
         );
         if correct_answers.len() > 1 {
             println!("Other possible correct answers:");
+
             for gloss in correct_answers {
                 if gloss.is_empty() {
                     continue;
@@ -112,9 +120,9 @@ fn review_word_meaning(
                 println!(
                     "- {}",
                     gloss
-                        .iter()
-                        .map(|g| g.split_once('(').map(|(g, _)| g).unwrap_or(g).trim())
-                        .collect::<Vec<&str>>()
+                        .into_iter()
+                        .map(format_definition)
+                        .collect::<Vec<String>>()
                         .join(", ")
                 );
             }
@@ -135,9 +143,9 @@ fn review_word_meaning(
             println!(
                 "- {}",
                 gloss
-                    .iter()
-                    .map(|g| g.split_once('(').map(|(g, _)| g).unwrap_or(g).trim())
-                    .collect::<Vec<&str>>()
+                    .into_iter()
+                    .map(format_definition)
+                    .collect::<Vec<String>>()
                     .join(", ")
             );
         }
@@ -162,14 +170,12 @@ fn review_word_reading(
         .reading_elements()
         .map(|r| r.text)
         .collect::<Vec<_>>();
-    println!("{}{}--- READING EXERCISE ---",
+    println!(
+        "{}{}--- READING EXERCISE ---",
         termion::clear::All,
         termion::cursor::Goto(1, 1)
     );
-    print!(
-        "Word: {}",
-        jmdict_entry.common_text_form()
-    );
+    print!("Word: {}", jmdict_entry.common_text_form());
     if word.borrow().total_reviews() == 0 {
         print!(
             "{}{}{} NEW {}",
